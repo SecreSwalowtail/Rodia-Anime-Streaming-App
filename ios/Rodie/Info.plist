@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,5 +51,26 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>ralewayblack.ttf</string>
+		<string>ralewayblackitalic.ttf</string>
+		<string>ralewaybold.ttf</string>
+		<string>ralewaybolditalic.ttf</string>
+		<string>ralewayextrabold.ttf</string>
+		<string>ralewayextrabolditalic.ttf</string>
+		<string>ralewayextralight.ttf</string>
+		<string>ralewayextralightitalic.ttf</string>
+		<string>ralewayitalic.ttf</string>
+		<string>ralewaylight.ttf</string>
+		<string>ralewaylightitalic.ttf</string>
+		<string>ralewaymedium.ttf</string>
+		<string>ralewaymediumitalic.ttf</string>
+		<string>ralewayregular.ttf</string>
+		<string>ralewaysemibold.ttf</string>
+		<string>ralewaysemibolditalic.ttf</string>
+		<string>ralewaythin.ttf</string>
+		<string>ralewaythinitalic.ttf</string>
+	</array>
 </dict>
 </plist>

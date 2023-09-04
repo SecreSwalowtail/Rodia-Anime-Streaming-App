@@ -1,0 +1,5 @@
+export const image1 = require('../assets/images/image1.jpg')
+export const image2 = require('../assets/images/image2.webp')
+export const image3 = require('../assets/images/image3.jpg')
+export const image4 = require('../assets/images/image4.jpg')
+export const image5 = require('../assets/images/image5.jpg')
