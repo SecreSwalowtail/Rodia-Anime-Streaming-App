@@ -11,6 +11,7 @@ You can :
 3. Everything you watch or read will update your MAL account, go get those shiny badges :)
 4. Read released manga from various sources online while the app keeps tracks of it
 5. Get a recap for manga if you left it for a long time, of course you can just skip it
+6. And much more things i forgot to add here
 
 ## Build
 
