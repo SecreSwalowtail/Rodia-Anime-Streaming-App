@@ -1,11 +1,12 @@
-import { Text } from "react-native-paper"
+import { Text, Surface, ThemeProvider, Button } from "react-native-paper"
 import { storage } from '../index'
 import * as React from 'react';
 import { SafeAreaView, View, ImageBackground, Image, Animated, Pressable, } from "react-native"
 import * as images from '../utils/importImages'
 import { useDispatch } from "react-redux"
 import { setBottomBar } from "../redux/reducers/stylesSlice"
-import styles from "../styles/homeStyle";
+import createStyles from "../styles/homeStyle";
+import { useTheme } from 'react-native-paper';
 
 const getRandomImage = () => {
     const imageKeys = Object.keys(images)
@@ -14,6 +15,9 @@ const getRandomImage = () => {
 }
 
 function Home() {
+    const theme = useTheme()
+    const styles = createStyles(theme)
+
     const [firstLaunch, setFirstLaunch] = React.useState(true)
     const [randomImages, setRandomImages] = React.useState(getRandomImage)
     const imageZoom = React.useRef(new Animated.Value(1.15)).current
@@ -125,16 +129,19 @@ function Home() {
         <SafeAreaView style={styles.mainContainer}>
             {firstLaunch ? (
                 <>
-                    <AnimatedImage style={[styles.imageBackground, { transform: [{ scale: imageZoom }, { translateX: imageMoveX }, { translateY: imageMoveY }] }]} source={randomImages} resizeMode="cover">
-
-                    </AnimatedImage>
-                    <Pressable style={{ width: 150, height: 50, backgroundColor: 'blue', position: 'absolute', alignSelf: 'center', borderRadius: 12, top: '50%' }} onPress={handleLaunchPress}>
-
-                    </Pressable>
+                    <AnimatedImage style={[styles.imageBackground, { transform: [{ scale: imageZoom }, { translateX: imageMoveX }, { translateY: imageMoveY }] }]} source={randomImages} resizeMode="cover"/>
+                    <View style={styles.startupView}>
+                        <Text variant="titleLarge" style={styles.mainStartupText}>Watch Animes in The <Text style={styles.highlightedText}>BEST</Text> Quality Available</Text>
+                        <Text variant="titleMedium" style={styles.secondaryStartupText}>Press below to start watching</Text>
+                        <Button mode="elevated" textColor={theme.colors.onSurface} buttonColor={theme.colors.secondary} style={styles.startupButton} onPress={handleLaunchPress}>
+                            Get Started
+                        </Button>
+                    </View>
+                    
                 </>
             ) : (
                 <View>
-                    <Text>Test2</Text>
+                    <Text variant="displayLarge">Test2</Text>
                 </View>
             )}
         </SafeAreaView>
