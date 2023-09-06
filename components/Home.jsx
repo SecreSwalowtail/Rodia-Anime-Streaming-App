@@ -25,6 +25,10 @@ function Home() {
     const imageMoveY = React.useRef(new Animated.Value(0)).current
     const AnimatedImage = Animated.createAnimatedComponent(ImageBackground) // ImageBackground does not have an animated component, this is a pretty workaround from stackoverflow :)
 
+    React.useEffect(() => {
+        setFirstLaunch(storage.getBoolean('APP.STATUS'))
+    }, [])
+
     const zoomIn = () => {
         Animated.timing(imageZoom, {
             toValue: 1.2,
@@ -54,6 +58,7 @@ function Home() {
     const handleLaunchPress = () => {
         setFirstLaunch(false)
         dispatch(setBottomBar(false))
+        storage.set('APP.STATUS', false)
     }
 
     const dispatch = useDispatch()

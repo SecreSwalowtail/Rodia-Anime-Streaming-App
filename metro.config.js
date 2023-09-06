@@ -1,11 +1,27 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
-
+const {getDefaultConfig} = require('@react-native/metro-config');
+const blacklist = require('metro-config/src/defaults/exclusionList');
 /**
  * Metro configuration
  * https://facebook.github.io/metro/docs/configuration
  *
  * @type {import('metro-config').MetroConfig}
  */
-const config = {};
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+const baseConfig = getDefaultConfig(__dirname);
+
+const modifiedConfig = {
+    resolver: {
+        blacklistRE: blacklist([
+            /\/nodejs-assets\/.*/,
+            /\/android\/.*/,
+            /\/ios\/.*/
+        ]),
+    },
+};
+
+const finalConfig = {
+    ...baseConfig,
+    ...modifiedConfig
+}
+
+module.exports = finalConfig;
