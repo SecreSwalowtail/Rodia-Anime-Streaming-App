@@ -43,5 +43,15 @@ If everything is set up _correctly_, you should see your APK in :
 android/app/build/outputs/apk/release
 ```
 
-# Supporting
-I host everything as open-source with absolutely no ads. Any donations are greatly appreciated :)
+# NOTES
+The [nodejs-react-native](https://github.com/nodejs-mobile/nodejs-mobile-react-native) package is curentlly broken and the fixes are not documented. This aims to help someone if he wants to integrate that in his application.
+
+The code still tries to build x86 libs while not supporting them, wrongly excluding packages that are needed for the package to run and i'm not even trying to build it for IOS
+1. ### Missing x86 libnode file
+Follow the guide on this [issue](https://github.com/nodejs-mobile/nodejs-mobile-react-native/issues/34)
+
+2. ### Project requiring NODE 16
+While you can change the configuration to use NODE 18+ in ``` node-modules/nodejs-mobile-react-native/android/build.gradle ``` from ```def _nodeVersionRequired = 16``` to ```def _nodeVersionRequired = 18``` or higher the best way for this is to use a node version manager(for example [NVM](https://github.com/nvm-sh/nvm)) while remembering to uninstall [nodejs](https://github.com/nodesource/distributions#uninstall-nodejs-ubuntu--debian-packages)
+
+3. ### Node assets copy failed
+Apply this [fix](https://github.com/JaneaSystems/nodejs-mobile/issues/60#issuecomment-378088756)
