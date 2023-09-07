@@ -1,12 +1,13 @@
-import { Text, Surface, ThemeProvider, Button } from "react-native-paper"
-import { storage } from '../index'
+import { Text, Button, useTheme, Divider } from "react-native-paper"
 import * as React from 'react';
-import { SafeAreaView, View, ImageBackground, Image, Animated, Pressable, } from "react-native"
 import * as images from '../utils/importImages'
+import { SafeAreaView, View, ImageBackground, Image, Animated} from "react-native"
 import { useDispatch } from "react-redux"
 import { setBottomBar } from "../redux/reducers/stylesSlice"
 import createStyles from "../styles/homeStyle";
-import { useTheme } from 'react-native-paper';
+import { storage } from '../index'
+
+import TrendingScrollView from "./common/TrendingScrollView";
 
 const getRandomImage = () => {
     const imageKeys = Object.keys(images)
@@ -121,9 +122,9 @@ function Home() {
 
             animateImages();
 
-            // Return a cleanup function to clear the interval when the component unmounts
+            // Return a cleanup function to clear everything on unmount
             return () => {
-                clearInterval(animationInterval);
+                cleanUpFunction()
             };
         };
 
@@ -142,12 +143,17 @@ function Home() {
                             Get Started
                         </Button>
                     </View>
-                    
                 </>
             ) : (
-                <View>
-                    <Text variant="displayLarge">Test2</Text>
+                <>
+                <View style={{padding: 18}}> 
+                    <Text variant="titleLarge" style={{alignSelf: 'center', marginTop: 24, fontFamily: 'ralewaymedium'}}>Trending</Text>
+                    <Divider theme={theme.colors.elevation} style={{marginTop: 24}} bold/>
+                    <TrendingScrollView />
+                    <Divider theme={theme.colors.elevation} style={{marginTop: 24}} bold/>
+                    <Text variant="titleLarge" style={{alignSelf: 'center', marginTop: 24, fontFamily: 'ralewaymedium'}}>Upcoming</Text>
                 </View>
+                </>
             )}
         </SafeAreaView>
     )
