@@ -1,6 +1,5 @@
-/**
- * @format
- */
+import axios from 'axios';
+import axiosThrottle from 'axios-request-throttle';
 
 import * as React from 'react';
 import { AppRegistry } from 'react-native';
@@ -20,6 +19,11 @@ const theme = {
   }
 
 export default function Main() {
+    React.useEffect(() => {
+        // Global throttle statement
+        axiosThrottle.use(axios, { requestsPerSecond: 5 })
+    }, [])
+
     return (
         <StoreProvider store={store}>
             <PaperProvider theme={theme}>
