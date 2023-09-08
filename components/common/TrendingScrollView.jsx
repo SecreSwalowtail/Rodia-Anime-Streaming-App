@@ -1,19 +1,9 @@
-import { Jikan } from "../../utils/fetchData"
 import * as React from 'react'
 import { ScrollView } from "react-native"
 import {Card, IconButton, TouchableRipple, useTheme} from 'react-native-paper'
 
-function TrendingScrollView() {
-    const [trendingAnimeData, setTrendingAnimeData] = React.useState()
+function TrendingScrollView({trendingAnimeData}) {
     const theme = useTheme()
-
-    React.useEffect(() => {
-        const fetchTrendingAnimes = async () => {
-            const response = await Jikan.getTrendingAnimes()
-            setTrendingAnimeData(response)
-        }
-        fetchTrendingAnimes()
-    }, [])
 
     return (
         <ScrollView horizontal showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} contentContainerStyle={{gap: 20}} style={{marginTop: 20}}>

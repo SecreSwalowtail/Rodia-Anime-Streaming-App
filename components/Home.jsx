@@ -1,13 +1,13 @@
-import { Text, Button, useTheme, Divider } from "react-native-paper"
+import { Text, Button, useTheme, Divider, ProgressBar } from "react-native-paper"
 import * as React from 'react';
 import * as images from '../utils/importImages'
-import { SafeAreaView, View, ImageBackground, Image, Animated} from "react-native"
-import { useDispatch } from "react-redux"
+import { SafeAreaView, View, ImageBackground, Image, Animated } from "react-native"
+import { useDispatch, useSelector } from "react-redux"
 import { setBottomBar } from "../redux/reducers/stylesSlice"
 import createStyles from "../styles/homeStyle";
 import { storage } from '../index'
-
 import TrendingScrollView from "./common/TrendingScrollView";
+import { Jikan } from '../utils/fetchData'
 
 const getRandomImage = () => {
     const imageKeys = Object.keys(images)
@@ -18,6 +18,10 @@ const getRandomImage = () => {
 function Home() {
     const theme = useTheme()
     const styles = createStyles(theme)
+
+    const trendingLoader = useSelector((state) => state.loading.trendingStatus)
+
+    const [trendingAnimeData, setTrendingAnimeData] = React.useState()
 
     const [firstLaunch, setFirstLaunch] = React.useState(true)
     const [randomImages, setRandomImages] = React.useState(getRandomImage)
@@ -118,8 +122,6 @@ function Home() {
                 moveImageY();
             };
 
-            const animationInterval = setInterval(animateImages, 5000);
-
             animateImages();
 
             // Return a cleanup function to clear everything on unmount
@@ -131,11 +133,19 @@ function Home() {
         cleanUpFunction();
     }, []);
 
+    React.useEffect(() => {
+        const fetchTrendingAnimes = async () => {
+            const response = await Jikan.getTrendingAnimes(dispatch)
+            setTrendingAnimeData(response)
+        }
+        fetchTrendingAnimes()
+    }, [])
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             {firstLaunch ? (
                 <>
-                    <AnimatedImage style={[styles.imageBackground, { transform: [{ scale: imageZoom }, { translateX: imageMoveX }, { translateY: imageMoveY }] }]} source={randomImages} resizeMode="cover"/>
+                    <AnimatedImage style={[styles.imageBackground, { transform: [{ scale: imageZoom }, { translateX: imageMoveX }, { translateY: imageMoveY }] }]} source={randomImages} resizeMode="cover" />
                     <View style={styles.startupView}>
                         <Text variant="titleLarge" style={styles.mainStartupText}>Watch Animes in The <Text style={styles.highlightedText}>BEST</Text> Quality Available</Text>
                         <Text variant="titleMedium" style={styles.secondaryStartupText}>Press below to start watching</Text>
@@ -145,15 +155,19 @@ function Home() {
                     </View>
                 </>
             ) : (
-                <>
-                <View style={{padding: 18}}> 
-                    <Text variant="titleLarge" style={{alignSelf: 'center', marginTop: 24, fontFamily: 'ralewaymedium'}}>Trending</Text>
-                    <Divider theme={theme.colors.elevation} style={{marginTop: 24}} bold/>
-                    <TrendingScrollView />
-                    <Divider theme={theme.colors.elevation} style={{marginTop: 24}} bold/>
-                    <Text variant="titleLarge" style={{alignSelf: 'center', marginTop: 24, fontFamily: 'ralewaymedium'}}>Upcoming</Text>
+                <View style={{ padding: 18 }}>
+                    {trendingLoader !== 1 ? (
+                            <ProgressBar progress={trendingLoader} style={{marginTop: 64}}/>
+                    ) : (
+                        <>
+                            <Text variant="titleLarge" style={{ alignSelf: 'center', marginTop: 24, fontFamily: 'ralewaymedium' }}>Trending</Text>
+                            <Divider theme={theme.colors.elevation} style={{ marginTop: 24 }} bold />
+                            <TrendingScrollView trendingAnimeData={trendingAnimeData} />
+                            <Divider theme={theme.colors.elevation} style={{ marginTop: 24 }} bold />
+                            <Text variant="titleLarge" style={{ alignSelf: 'center', marginTop: 24, fontFamily: 'ralewaymedium' }}>Upcoming</Text>
+                        </>
+                    )}
                 </View>
-                </>
             )}
         </SafeAreaView>
     )
